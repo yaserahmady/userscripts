@@ -46,27 +46,26 @@ function addScript(url, defer = false) {
 }
 
 //
-// Character count plugin
+// Alpine.js Plugins
 //
 
-const count = () => {
-  Alpine.directive(
-    "count",
-    (el, { expression, modifiers }, { evaluateLater, effect }) => {
-      let maxLength = modifiers[0] || false;
-      let getInputValue = evaluateLater(expression);
-
-      effect(() => {
-        getInputValue((string) => {
-          let stringLength = string.length;
-
-          el.innerText = maxLength ? maxLength - stringLength : stringLength;
-        });
-      });
-    }
-  );
-};
-
 document.addEventListener("alpine:init", () => {
-  window.Alpine.plugin(count);
+  // Character count plugin
+  window.Alpine.plugin(
+    Alpine.directive(
+      "count",
+      (el, { expression, modifiers }, { evaluateLater, effect }) => {
+        let maxLength = modifiers[0] || false;
+        let getInputValue = evaluateLater(expression);
+
+        effect(() => {
+          getInputValue((string) => {
+            let stringLength = string.length;
+
+            el.innerText = maxLength ? maxLength - stringLength : stringLength;
+          });
+        });
+      }
+    )
+  );
 });
